@@ -11,6 +11,33 @@ class Team < ApplicationRecord
   validates :team_name, presence: true, uniqueness: { scope: :division_id }
   validates :coach_name, presence: true
 
+  # Determine the score for the team based on the selector.  Selector can be best_auto_draft_score
+  def score(draft_round)
+    case draft_round
+    when :pitching_round_1
+      auto_draft_players.order("(greatest(pitching, catching, overall) + rand()) DESC").first.best_skill + (100000 * players.count)
+
+    when :pitching_round_2
+      players.sum(:pitching)
+
+    when :catching_round_1
+      players.sum(:pitching) + players.sum(:catching)
+
+    when :catching_round_2
+      players.sum(:pitching) + players.sum(:catching)
+
+    when :overall
+      players.sum("greatest(pitching, catching, overall)")
+
+    when :overall_open
+      players.sum("greatest(pitching, catching, overall)")
+
+    else
+      raise "Unknown draft round"
+
+    end
+  end
+
   def self.import_csv(division, file)
     Team.transaction do
       spreadsheet = open_spreadsheet(file)

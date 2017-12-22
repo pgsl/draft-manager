@@ -1,0 +1,47 @@
+<div class="container-fluid">
+
+  <h1>Draft</h1>
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Team Name</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <% @teams.each do |team| %>
+      <tr>
+        <td><%= team.draft_position + 1 %></td>
+        <td><%= team.team_name %></td>
+        <td><%= team.score(@division.draft_team_sort.to_sym) %></td>
+      </tr>
+    <% end %>
+  </table>
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Team</th>
+        <th>Auto Draft Team</th>
+        <th>Pitching</th>
+        <th>Catching</th>
+        <th>Overall</th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <% @players.each do |player| %>
+      <tr>
+        <td><%= player.name %></td>
+        <td><%= player.team.try(:team_name) %></td>
+        <td><%= player.auto_draft_team.try(:team_name) %></td>
+        <td><%= player.pitching %></td>
+        <td><%= player.catching %></td>
+        <td><%= player.overall %></td>
+        <td class="text-right"><%= link_to "Draft", d_path(id: @division, player_id: player.id, team_id: @teams.first.id), method: 'patch', class: 'btn btn-sm btn-primary' %></td>
+      </tr>
+    <% end %>
+  </table>
+
+</div>

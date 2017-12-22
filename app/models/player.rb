@@ -6,12 +6,15 @@ class Player < ApplicationRecord
   belongs_to :team, optional: true
   belongs_to :auto_draft_team, class_name: 'Team', optional: true
 
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+
   def name
     "#{first_name} #{last_name}"
   end
 
-  def skills
-    [skill_1, skill_2, skill_3]
+  def best_skill
+    [pitching, catching, overall].max
   end
 
   def self.import_csv(division, file)
@@ -25,9 +28,9 @@ class Player < ApplicationRecord
         player.last_name       = row["Last Name"]
         player.team            = division.teams.find_by(team_name: row["Team"])
         player.auto_draft_team = division.teams.find_by(team_name: row["Auto Draft Team"])
-        player.skill_1         = row["Skill 1"].to_i
-        player.skill_2         = row["Skill 2"].to_i
-        player.skill_3         = row["Skill 3"].to_i
+        player.pitching        = row["Pitching"].to_i
+        player.catching        = row["Catching"].to_i
+        player.overall         = row["Overall"].to_i
         player.save!
       end
     end

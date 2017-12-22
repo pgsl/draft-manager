@@ -7,7 +7,7 @@
 
   <div class="row">
     <div class="col-md-8">
-      <% if @division.teams.size == 0 %>
+      <% if @teams.size == 0 %>
         <p class="text-muted">No Records</p>
       <% else %>
         <table class="table table-hover">
@@ -18,7 +18,7 @@
               <th>Players</th>
             </tr>
           </thead>
-          <% @division.teams.each do |team| %>
+          <% @teams.each do |team| %>
             <tr>
               <td><%= team.team_name %></td>
               <td><%= team.coach_name %></td>
@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <% if @division.teams.size > 0 %>
+  <% if @teams.size > 0 %>
 
     <hr>
 
@@ -52,7 +52,7 @@
 
     <div class="row">
       <div class="col-md-8">
-        <% if @division.players.size == 0 %>
+        <% if @players.size == 0 %>
           <p class="text-muted">No Records</p>
         <% else %>
           <table class="table table-hover">
@@ -61,19 +61,19 @@
                 <th>Name</th>
                 <th>Team</th>
                 <th>Auto Draft Team</th>
-                <th><%= @division.skills_a[0] %></th>
-                <th><%= @division.skills_a[1] %></th>
-                <th><%= @division.skills_a[2] %></th>
+                <th>Pitching</th>
+                <th>Catching</th>
+                <th>Overall</th>
               </tr>
             </thead>
-            <% @division.players.each do |player| %>
+            <% @players.each do |player| %>
               <tr>
                 <td><%= player.name %></td>
                 <td><%= player.team.try(:team_name) %></td>
                 <td><%= player.auto_draft_team.try(:team_name) %></td>
-                <td><%= player.skill_1 %></td>
-                <td><%= player.skill_2 %></td>
-                <td><%= player.skill_3 %></td>
+                <td><%= player.pitching %></td>
+                <td><%= player.catching %></td>
+                <td><%= player.overall %></td>
               </tr>
             <% end %>
           </table>

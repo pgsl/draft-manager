@@ -10,14 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171221051047) do
+ActiveRecord::Schema.define(version: 20171221180709) do
 
   create_table "divisions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "uuid"
     t.string "name"
-    t.string "skills"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "draft_window", default: 0
+    t.integer "draft_player_sort", default: 0
+    t.integer "draft_team_sort", default: 0
   end
 
   create_table "players", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -26,11 +28,12 @@ ActiveRecord::Schema.define(version: 20171221051047) do
     t.string "last_name"
     t.bigint "team_id"
     t.bigint "auto_draft_team_id"
-    t.integer "skill_1"
-    t.integer "skill_2"
-    t.integer "skill_3"
+    t.integer "pitching"
+    t.integer "catching"
+    t.integer "overall"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "draft_order"
     t.index ["auto_draft_team_id"], name: "index_players_on_auto_draft_team_id"
     t.index ["division_id"], name: "index_players_on_division_id"
     t.index ["team_id"], name: "index_players_on_team_id"
@@ -42,6 +45,7 @@ ActiveRecord::Schema.define(version: 20171221051047) do
     t.string "coach_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "draft_position"
     t.index ["division_id"], name: "index_teams_on_division_id"
   end
 
