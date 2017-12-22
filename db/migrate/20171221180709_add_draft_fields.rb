@@ -7,8 +7,7 @@ class AddDraftFields < ActiveRecord::Migration[5.1]
 
     add_column :teams, :draft_position, :integer
 
-    add_column :divisions, :draft_window, :integer, default: 0
-    add_column :divisions, :draft_player_sort, :integer, default: 0
+    add_column :divisions, :draft_window, :integer, default: 6
     add_column :divisions, :draft_team_sort, :integer, default: 0
 
     remove_column :divisions, :skills

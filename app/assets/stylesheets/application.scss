@@ -1,2 +1,44 @@
 // Custom bootstrap variables must be set or imported *before* bootstrap.
+
+$body-bg: #eee;
+$border-radius-base:  1.5px;
+$border-radius-large: 3px;
+$border-radius-small: 1px;
+
 @import "bootstrap";
+
+.btn, .alert, .card {
+  border-radius: $border-radius-base;
+}
+.btn-sm, .btn-group-sm > .btn {
+  padding: 0rem 0.5rem;
+}
+.card {
+  padding: 20px;
+  margin-bottom: 20px;
+  .card-title {
+    font-size: 26px;
+  }
+}
+.draft-round {
+  .nav-item {
+    margin: 0 5px 0 5px;
+  }
+  .nav-link {
+    border: 1px solid #999;
+    border-radius: $border-radius-base;
+    color: #666;
+  }
+  .nav-link.active {
+    background-color: #666;
+    border: 1px solid #666;
+  }
+}
+#selection-duration {
+  color: #090;
+  font-weight: bold;
+  font-size: 26px;
+}
+.footer {
+  margin-bottom: 20px;
+}

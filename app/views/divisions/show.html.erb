@@ -1,38 +1,38 @@
 <div class="container">
-  <h1>Backstop (by FutureFund)</h1>
+  <h1>PGSL Draft Manager</h1>
 
-  <hr>
+  <div class="card">
 
-  <h2>Team Management</h2>
+    <div class="card-title">Team Management</div>
+    <%= show_flash %>
 
-  <div class="row">
-    <div class="col-md-8">
-      <% if @teams.size == 0 %>
-        <p class="text-muted">No Records</p>
-      <% else %>
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>Team Name</th>
-              <th>Coach Name</th>
-              <th>Players</th>
-            </tr>
-          </thead>
-          <% @teams.each do |team| %>
-            <tr>
-              <td><%= team.team_name %></td>
-              <td><%= team.coach_name %></td>
-              <td><%= team.players.count %></td>
-            </tr>
-          <% end %>
-        </table>
-      <% end %>
-    </div>
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-body">
+    <div class="row">
+      <div class="col-md-8">
+        <% if @teams.size == 0 %>
+          <p class="text-muted">No Records</p>
+        <% else %>
+          <table class="table table-sm table-hover">
+            <thead>
+              <tr>
+                <th>Team Name</th>
+                <th>Coach Name</th>
+                <th class="text-center">Players</th>
+              </tr>
+            </thead>
+            <% @teams.each do |team| %>
+              <tr>
+                <td><%= team.team_name %></td>
+                <td><%= team.coach_name %></td>
+                <td class="text-center"><%= team.players.count %></td>
+              </tr>
+            <% end %>
+          </table>
+        <% end %>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
           <h4 class="card-title">Upload Teams</h4>
-          <p class="text-muted">Use this form to upload teams for the draft.</p>
+          <p class="text-muted">Use this form to upload teams for the draft.  This will replace existing teams AND players.</p>
           <%= form_tag(d_teams_path(d_id: @division), multipart: true) do %>
             <div class="form-group">
               <%= file_field_tag 'file', class: 'form-control' %>
@@ -43,58 +43,71 @@
       </div>
     </div>
   </div>
-
   <% if @teams.size > 0 %>
-
-    <hr>
-
-    <h3>Player Management</h3>
-
-    <div class="row">
-      <div class="col-md-8">
-        <% if @players.size == 0 %>
-          <p class="text-muted">No Records</p>
-        <% else %>
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Team</th>
-                <th>Auto Draft Team</th>
-                <th>Pitching</th>
-                <th>Catching</th>
-                <th>Overall</th>
-              </tr>
-            </thead>
-            <% @players.each do |player| %>
-              <tr>
-                <td><%= player.name %></td>
-                <td><%= player.team.try(:team_name) %></td>
-                <td><%= player.auto_draft_team.try(:team_name) %></td>
-                <td><%= player.pitching %></td>
-                <td><%= player.catching %></td>
-                <td><%= player.overall %></td>
-              </tr>
-            <% end %>
-          </table>
-        <% end %>
-      </div>
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Upload Players</h4>
-            <p class="text-muted">Use this form to upload players for the draft.</p>
-            <%= form_tag(d_players_path(d_id: @division), multipart: true) do %>
-              <div class="form-group">
-                <%= file_field_tag 'file', class: 'form-control' %>
-              </div>
-              <%= submit_tag "Upload Players", class: 'btn btn-primary' %>
-            <% end %>
-          </div>
+    <div class="card">
+      <div class="card-title">Player Management</div>
+      <div class="row">
+        <div class="col-md-8">
+          <% if @players.size == 0 %>
+            <p class="text-muted">No Records</p>
+          <% else %>
+            <table class="table table-sm table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th class="text-center">Team</th>
+                  <th class="text-center">Auto Draft Team</th>
+                  <th class="text-center">Pitching</th>
+                  <th class="text-center">Catching</th>
+                  <th class="text-center">Overall</th>
+                </tr>
+              </thead>
+              <% @players.each do |player| %>
+                <tr>
+                  <td><%= player.name %></td>
+                  <td class="text-center"><%= player.team.try(:team_name) %></td>
+                  <td class="text-center"><%= player.auto_draft_team.try(:team_name) %></td>
+                  <td class="text-center"><%= player.pitching %></td>
+                  <td class="text-center"><%= player.catching %></td>
+                  <td class="text-center"><%= player.overall %></td>
+                </tr>
+              <% end %>
+            </table>
+          <% end %>
+        </div>
+        <div class="col-md-4">
+          <% if @division.end_draft? && @division.players.exists? %>
+            <div class="card">
+              <h4 class="card-title">Download Players</h4>
+              <p class="text-muted">Click the following link to download the players with their team assignments.</p>
+              <%= link_to "Export CSV", d_players_path(d_id: @division, format: :csv) %>
+            </div>
+          <% else %>
+            <div class="card">
+              <h4 class="card-title">Upload Players</h4>
+              <p class="text-muted">Use this form to upload players for the draft. This will replace all players.</p>
+              <%= form_tag(d_players_path(d_id: @division), multipart: true) do %>
+                <div class="form-group">
+                  <%= file_field_tag 'file', class: 'form-control' %>
+                </div>
+                <%= submit_tag "Upload Players", class: 'btn btn-primary' %>
+              <% end %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
+  <% end %>
 
+  <% if @teams.size > 0 && @players.size > 0 %>
+    <div class="card">
+      <div class="card-title">Draft Management</div>
+      <% if @division.players.where("players.draft_order IS NOT NULL").exists? %>
+        <p class="text-center"><%= link_to "Continue Draft", draft_d_path(id: @division), class: 'btn btn-lg btn-success' %></p>
+      <% else %>
+        <p class="text-center"><%= link_to "Start Draft", draft_d_path(id: @division), class: 'btn btn-lg btn-success' %></p>
+      <% end %>
+    </div>
   <% end %>
 
 </div>

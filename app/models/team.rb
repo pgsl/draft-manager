@@ -13,28 +13,32 @@ class Team < ApplicationRecord
 
   # Determine the score for the team based on the selector.  Selector can be best_auto_draft_score
   def score(draft_round)
-    case draft_round
+    case draft_round.to_sym
     when :pitching_round_1
       auto_draft_players.order("(greatest(pitching, catching, overall) + rand()) DESC").first.best_skill + (100000 * players.count)
-
     when :pitching_round_2
       players.sum(:pitching)
-
-    when :catching_round_1
-      players.sum(:pitching) + players.sum(:catching)
-
-    when :catching_round_2
-      players.sum(:pitching) + players.sum(:catching)
-
-    when :overall
+    when :catching_round_1, :catching_round_2
+      players.sum("greatest(pitching, catching)")
+    when :overall, :overall_open, :end_draft
       players.sum("greatest(pitching, catching, overall)")
-
-    when :overall_open
-      players.sum("greatest(pitching, catching, overall)")
-
     else
       raise "Unknown draft round"
+    end
+  end
 
+  def display_score(draft_round)
+    case draft_round.to_sym
+    when :pitching_round_1
+      "n/a"
+    when :pitching_round_2
+      players.sum(:pitching)
+    when :catching_round_1, :catching_round_2
+      players.sum("greatest(pitching, catching)")
+    when :overall, :overall_open, :end_draft
+      players.sum("greatest(pitching, catching, overall)")
+    else
+      raise "Unknown draft round"
     end
   end
 

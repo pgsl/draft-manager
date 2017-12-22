@@ -1,47 +1,126 @@
 <div class="container-fluid">
 
-  <h1>Draft</h1>
+  <div class="card mt-3">
+    <div class="card-title">PGSL Draft</div>
+    <span id="selection-duration">00:00:00</span>
+    <div class="row">
+      <div class="col"><%= link_to "Pitching - R1", d_path(id: @division, draft_team_sort: :pitching_round_1), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :pitching_round_1)}" %></div>
+      <div class="col"><%= link_to "Pitching - R2", d_path(id: @division, draft_team_sort: :pitching_round_2), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :pitching_round_2)}" %></div>
+      <div class="col"><%= link_to "Catching - R1", d_path(id: @division, draft_team_sort: :catching_round_1), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :catching_round_1)}" %></div>
+      <div class="col"><%= link_to "Catching - R2", d_path(id: @division, draft_team_sort: :catching_round_2), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :catching_round_2)}" %></div>
+      <div class="col"><%= link_to "Overall - Win", d_path(id: @division, draft_team_sort: :overall), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :overall)}" %></div>
+      <div class="col"><%= link_to "Overall - All", d_path(id: @division, draft_team_sort: :overall_open), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :overall_open)}" %></div>
+      <div class="col"><%= link_to "End Draft",     d_path(id: @division, draft_team_sort: :end_draft), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :end_draft)}" %></div>
+    </div>
+  </div>
 
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>No</th>
-        <th>Team Name</th>
-        <th>Score</th>
-      </tr>
-    </thead>
-    <% @teams.each do |team| %>
-      <tr>
-        <td><%= team.draft_position + 1 %></td>
-        <td><%= team.team_name %></td>
-        <td><%= team.score(@division.draft_team_sort.to_sym) %></td>
-      </tr>
-    <% end %>
-  </table>
-
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Team</th>
-        <th>Auto Draft Team</th>
-        <th>Pitching</th>
-        <th>Catching</th>
-        <th>Overall</th>
-        <th>&nbsp;</th>
-      </tr>
-    </thead>
-    <% @players.each do |player| %>
-      <tr>
-        <td><%= player.name %></td>
-        <td><%= player.team.try(:team_name) %></td>
-        <td><%= player.auto_draft_team.try(:team_name) %></td>
-        <td><%= player.pitching %></td>
-        <td><%= player.catching %></td>
-        <td><%= player.overall %></td>
-        <td class="text-right"><%= link_to "Draft", d_path(id: @division, player_id: player.id, team_id: @teams.first.id), method: 'patch', class: 'btn btn-sm btn-primary' %></td>
-      </tr>
-    <% end %>
-  </table>
-
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-title">
+          <div class="float-right"><%= link_to "Undo", d_path(id: @division), method: 'delete', class: 'btn btn-sm btn-danger' %></div>
+          Undrafted Players
+        </div>
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Name</th>
+              <th>Pitching</th>
+              <th>Catching</th>
+              <th>Overall</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <% @players.each_with_index do |player, index| %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= player.name %></td>
+              <td><%= player.pitching %></td>
+              <td><%= player.catching %></td>
+              <td><%= player.overall %></td>
+              <td class="text-right">
+                <% if (index + 1) <= @draft_window %>
+                  <% if @auto_draft %>
+                    <% if player.auto_draft_team %>
+                      <%= link_to "Auto: #{player.auto_draft_team.team_name}",
+                                  d_path(id: @division, player_id: player.id, team_id: player.auto_draft_team.id),
+                                  method: 'patch',
+                                  class: 'btn btn-sm btn-primary' %>
+                    <% else %>
+                      &nbsp;
+                    <% end %>
+                  <% else %>
+                    <%= link_to "Draft",
+                                d_path(id: @division, player_id: player.id, team_id: @teams.first.id),
+                                method: 'patch',
+                                class: 'btn btn-sm btn-primary' %>
+                  <% end %>
+                <% else %>
+                  &nbsp;
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="card">
+        <div class="card-title"><%= @draft_team.team_name %> Roster</div>
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <% @draft_team.players.order(:draft_order).each_with_index do |player, index| %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= player.name %></td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="card">
+        <div class="card-title">Draft Order</div>
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th>Team</th>
+              <th>Players</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <% @teams.each do |team| %>
+            <tr>
+              <td><%= team.team_name %>: <%= team.coach_name %></td>
+              <td><%= team.players.count %></td>
+              <td><%= team.display_score(@division.draft_team_sort) %></td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
+<% if !@auto_draft %>
+<script>
+$().ready(function() {
+  $('#selection-duration').stopwatch().bind('tick.stopwatch', function(e, elapsed){
+    if (elapsed >= 60000) {
+      $(this).css('color', '#dc3545');
+      $('body').css('background-color', '#721c24');
+      $('.footer, .footer a').css('color', '#eee');
+    } else {
+      if (elapsed >= 40000) {
+        $(this).css('color', '#ffc107');
+      }
+    }
+  }).stopwatch('start');
+});
+</script>
+<% end %>

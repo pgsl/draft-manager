@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>DraftManager</title>
+    <title>PGSL Draft Manager</title>
     <%= csrf_meta_tags %>
-
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
   </head>
 
   <body>
     <%= yield %>
+    <hr/>
+    <div class="container-fluid footer">
+      Powered by <a href="https://www.futurefund.com">FutureFund Technology, LLC.</a>
+    </div>
   </body>
 </html>
