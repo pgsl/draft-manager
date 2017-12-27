@@ -7,12 +7,13 @@ $border-radius-small: 1px;
 
 @import "bootstrap";
 
-.btn, .alert, .card {
+.btn, .alert, .card, .nav-pills .nav-link {
   border-radius: $border-radius-base;
 }
 .btn-sm, .btn-group-sm > .btn {
   padding: 0rem 0.5rem;
 }
+
 .card {
   padding: 20px;
   margin-bottom: 20px;
@@ -36,9 +37,14 @@ $border-radius-small: 1px;
   }
 }
 .draft-header {
+  border-top: 1px solid #ababab;
+  padding-top: 5px;
   font-weight: bold;
   font-size: 26px;
-  margin: 10px 0;
+  margin: 15px 0;
+  .team {
+    color: #090;
+  }
 }
 #selection-duration {
   color: #090;
