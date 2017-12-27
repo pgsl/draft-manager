@@ -38,10 +38,22 @@ class PlayersController < ApplicationController
     redirect_to d_path(id: @division)
   end
 
+  def edit
+  end
+
+  def update
+    @player.update(player_params)
+  end
+
   private
 
   def load_objects
     @division = Division.find_by(uuid: params[:d_id]) if params[:d_id]
+    @player   = @division.players.find(params[:id])   if params[:id]
+  end
+
+  def player_params
+    params.require(:player).permit(:first_name, :last_name, :team_id, :auto_draft_team_id, :pitching, :catching, :overall)
   end
 
 end

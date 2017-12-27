@@ -1,0 +1,6 @@
+<% if @player.valid? %>
+  $('#modal').modal('hide');
+  $('#<%= dom_id(@player) %>').replaceWith("<%= j(render(partial: @player)) %>");
+<% else %>
+  $('#modal').html("<%= j(render('form')) %>");
+<% end %>
