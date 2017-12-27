@@ -64,16 +64,7 @@
                   <th class="text-center">Overall</th>
                 </tr>
               </thead>
-              <% @players.each do |player| %>
-                <tr>
-                  <td><%= player.name %></td>
-                  <td class="text-center"><%= player.team.try(:team_name) %></td>
-                  <td class="text-center"><%= player.auto_draft_team.try(:team_name) %></td>
-                  <td class="text-center"><%= player.pitching %></td>
-                  <td class="text-center"><%= player.catching %></td>
-                  <td class="text-center"><%= player.overall %></td>
-                </tr>
-              <% end %>
+              <%= render @players %>
             </table>
           <% end %>
         </div>

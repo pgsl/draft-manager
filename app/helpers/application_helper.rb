@@ -8,6 +8,24 @@ module ApplicationHelper
     end
   end
 
+  def display_messages(model, brief=false)
+    if model && model.errors.any?
+      if brief
+        errors = ""
+        model.errors.full_messages.each do |msg|
+          errors += content_tag(:p, msg)
+        end
+        content_tag(:div, errors.html_safe, class: 'alert alert-danger')
+      else
+        errors = ""
+        model.errors.full_messages.each do |msg|
+          errors += content_tag(:li, msg)
+        end
+        content_tag(:div, content_tag(:div, "Please review the following:", class: 'alert-title') + content_tag(:ul, errors.html_safe), class: 'alert alert-danger')
+      end
+    end
+  end
+
   def show_flash
     result = ""
     flash.each do |name, msg|

@@ -1,0 +1,47 @@
+<%= form_with model: @player, url: d_player_path(@division, @player), remote: true do |f| %>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Update Player</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= display_messages @player %>
+        <div class="form-group">
+          <%= f.label :first_name %> <span class="required"><i class="fa fa-asterisk"></i></span>
+          <%= f.text_field :first_name, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :last_name %> <span class="required"><i class="fa fa-asterisk"></i></span>
+          <%= f.text_field :last_name, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :team_id %>
+          <%= f.collection_select :team_id, @division.teams, :id, :display_name, { include_blank: true }, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :auto_draft_team_id %>
+          <%= f.collection_select :auto_draft_team_id, @division.teams, :id, :display_name, { include_blank: true }, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :pitching %> <span class="required"><i class="fa fa-asterisk"></i></span>
+          <%= f.text_field :pitching, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :catching %> <span class="required"><i class="fa fa-asterisk"></i></span>
+          <%= f.text_field :catching, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :overall %> <span class="required"><i class="fa fa-asterisk"></i></span>
+          <%= f.text_field :overall, class: "form-control" %>
+        </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <%= f.submit class: 'btn btn-primary' %>
+      </div>
+    </div>
+  </div>
+<% end %>
