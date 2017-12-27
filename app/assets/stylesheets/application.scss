@@ -18,6 +18,7 @@ $border-radius-small: 1px;
   margin-bottom: 20px;
   .card-title {
     font-size: 26px;
+    margin-bottom: 0;
   }
 }
 .draft-round {
@@ -34,10 +35,13 @@ $border-radius-small: 1px;
     border: 1px solid #666;
   }
 }
-#selection-duration {
-  color: #090;
+.draft-header {
   font-weight: bold;
   font-size: 26px;
+  margin: 10px 0;
+}
+#selection-duration {
+  color: #090;
 }
 .footer {
   margin-bottom: 20px;

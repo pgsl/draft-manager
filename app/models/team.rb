@@ -27,6 +27,10 @@ class Team < ApplicationRecord
     end
   end
 
+  def display_name
+    "#{team_name}: #{coach_name}"
+  end
+
   def display_score(draft_round)
     case draft_round.to_sym
     when :pitching_round_1

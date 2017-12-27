@@ -1,16 +1,31 @@
 <div class="container-fluid">
 
   <div class="card mt-3">
-    <div class="card-title">PGSL Draft</div>
-    <span id="selection-duration">00:00:00</span>
     <div class="row">
-      <div class="col"><%= link_to "Pitching - R1", d_path(id: @division, draft_team_sort: :pitching_round_1), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :pitching_round_1)}" %></div>
-      <div class="col"><%= link_to "Pitching - R2", d_path(id: @division, draft_team_sort: :pitching_round_2), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :pitching_round_2)}" %></div>
-      <div class="col"><%= link_to "Catching - R1", d_path(id: @division, draft_team_sort: :catching_round_1), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :catching_round_1)}" %></div>
-      <div class="col"><%= link_to "Catching - R2", d_path(id: @division, draft_team_sort: :catching_round_2), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :catching_round_2)}" %></div>
-      <div class="col"><%= link_to "Overall - Win", d_path(id: @division, draft_team_sort: :overall), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :overall)}" %></div>
-      <div class="col"><%= link_to "Overall - All", d_path(id: @division, draft_team_sort: :overall_open), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :overall_open)}" %></div>
-      <div class="col"><%= link_to "End Draft",     d_path(id: @division, draft_team_sort: :end_draft), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :end_draft)}" %></div>
+      <div class="col-md-3">
+        <%= image_tag 'phantom_logo.png', class: 'img-fluid' %>
+      </div>
+      <div class="col-md-9">
+        <nav class="nav nav-pills nav-fill">
+          <a class="nav-item nav-link active" href="#">Active</a>
+          <a class="nav-item nav-link" href="#">Link</a>
+          <a class="nav-item nav-link" href="#">Link</a>
+          <a class="nav-item nav-link disabled" href="#">Disabled</a>
+        </nav>
+        <div class="row">
+          <div class="col"><%= link_to "Pitching - R1", d_path(id: @division, draft_team_sort: :pitching_round_1), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :pitching_round_1)}" %></div>
+          <div class="col"><%= link_to "Pitching - R2", d_path(id: @division, draft_team_sort: :pitching_round_2), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :pitching_round_2)}" %></div>
+          <div class="col"><%= link_to "Catching - R1", d_path(id: @division, draft_team_sort: :catching_round_1), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :catching_round_1)}" %></div>
+          <div class="col"><%= link_to "Catching - R2", d_path(id: @division, draft_team_sort: :catching_round_2), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :catching_round_2)}" %></div>
+          <div class="col"><%= link_to "Overall - Win", d_path(id: @division, draft_team_sort: :overall), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :overall)}" %></div>
+          <div class="col"><%= link_to "Overall - All", d_path(id: @division, draft_team_sort: :overall_open), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :overall_open)}" %></div>
+          <div class="col"><%= link_to "End Draft",     d_path(id: @division, draft_team_sort: :end_draft), method: 'patch', class: "btn btn-block #{draft_team_sort_style(@division, :end_draft)}" %></div>
+        </div>
+        <div class="draft-header">
+          <div class="float-right"><span id="selection-duration">00:00:00</span></div>
+          Draft Team: <% if @auto_draft %>Auto Draft<% else %><%= @draft_team.display_name %><% end %>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -107,7 +122,7 @@
     </div>
   </div>
 </div>
-<% if !@auto_draft %>
+<% if !@auto_draft && !@division.end_draft?%>
 <script>
 $().ready(function() {
   $('#selection-duration').stopwatch().bind('tick.stopwatch', function(e, elapsed){

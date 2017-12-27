@@ -17,8 +17,7 @@ ActiveRecord::Schema.define(version: 20171221180709) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "draft_window", default: 0
-    t.integer "draft_player_sort", default: 0
+    t.integer "draft_window", default: 6
     t.integer "draft_team_sort", default: 0
   end
 
