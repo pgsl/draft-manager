@@ -13,6 +13,7 @@ class Team < ApplicationRecord
 
   # Determine the score for the team based on the selector.  Selector can be best_auto_draft_score
   def score(draft_round)
+    return 0 if auto_draft_players.count == 0
     case draft_round.to_sym
     when :pitching_round_1
       auto_draft_players.order("(greatest(pitching, catching, overall) + rand()) DESC").first.best_skill + (100000 * players.count)
