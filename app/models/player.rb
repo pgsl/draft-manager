@@ -63,9 +63,9 @@ class Player < ApplicationRecord
         player.last_name       = row["Last Name"]
         player.team            = division.teams.find_by(team_name: row["Team"])
         player.auto_draft_team = division.teams.find_by(team_name: row["Auto Draft Team"])
-        player.pitching        = row["Pitching"].to_i
-        player.catching        = row["Catching"].to_i
-        player.overall         = row["Overall"].to_i
+        player.pitching        = (row["Pitching"].to_f * 100).to_i
+        player.catching        = (row["Catching"].to_f * 100).to_i
+        player.overall         = (row["Overall"].to_f * 100).to_i
         player.save!
       end
     end
