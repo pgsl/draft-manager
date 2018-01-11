@@ -72,6 +72,21 @@
             </tr>
           <% end %>
         </table>
+        <hr>
+        <div class="dropdown">
+          Draft Window Size:
+          <button class="btn btn-link btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= @division.draft_window == 200 ? "All" : @division.draft_window %>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <%= link_to "6", d_path(id: @division, draft_window: 6), method: :patch, class: 'dropdown-item' %>
+            <%= link_to "7", d_path(id: @division, draft_window: 7), method: :patch, class: 'dropdown-item' %>
+            <%= link_to "8", d_path(id: @division, draft_window: 8), method: :patch, class: 'dropdown-item' %>
+            <%= link_to "9", d_path(id: @division, draft_window: 9), method: :patch, class: 'dropdown-item' %>
+            <%= link_to "10", d_path(id: @division, draft_window: 10), method: :patch, class: 'dropdown-item' %>
+            <%= link_to "All", d_path(id: @division, draft_window: 200), method: :patch, class: 'dropdown-item' %>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col-sm-3">
