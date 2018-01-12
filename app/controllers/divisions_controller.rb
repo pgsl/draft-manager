@@ -46,7 +46,13 @@ class DivisionsController < ApplicationController
     @division.calculate_draft_order
     @players = @division.players.undrafted.sorted_by_skill(@division.draft_team_sort)
     @teams = @division.teams.order(:draft_position)
-    @draft_team = @teams.first
+    @pass_amount = params[:pass].to_i
+    if @pass_amount != 0 && @teams.size > @pass_amount
+      @draft_team = @teams[@pass_amount]
+    else
+      @pass_amount = 0
+      @draft_team = @teams.first
+    end
     @draft_window = @division.draft_window_size
     @auto_draft = Player.where(id: @players.limit(@draft_window).pluck(:id)).where("players.auto_draft_team_id IS NOT NULL").exists?
   end
