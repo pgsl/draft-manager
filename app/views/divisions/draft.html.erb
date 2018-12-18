@@ -63,7 +63,7 @@
                     <% end %>
                   <% else %>
                     <%= link_to "Draft",
-                                d_path(id: @division, player_id: player.id, team_id: @teams.first.id),
+                                d_path(id: @division, player_id: player.id, team_id: @teams.first.id, pass: @pass_amount),
                                 method: 'patch',
                                 class: 'btn btn-sm btn-primary' %>
                   <% end %>
