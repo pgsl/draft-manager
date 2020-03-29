@@ -1,16 +1,11 @@
 source 'https://rubygems.org'
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
-  "https://github.com/#{repo_name}.git"
-end
-
-gem 'rails', '~> 5.1.4'
-gem 'mysql2', '>= 0.3.18', '< 0.5'
-gem 'puma', '~> 3.12'
+gem 'rails', '~> 6.0.2'
+gem 'mysql2', '>= 0.4.4'
+gem 'puma', '~> 4.1'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.2'
 gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
 gem 'roo'
